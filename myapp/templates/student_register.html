@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Register</title>
+    {% include 'layout/head.html' %}
+    <script>
+        $(function () {
+            function getStudent() {
+                const searchParams = new URLSearchParams(location.search);
+                const studentId = searchParams.get('student_id')
+                sessionStorage.setItem('st_id', studentId);
+                $.ajax({
+                    url: `http://localhost:8000/myapp/student/${studentId}/`,
+                    method: "GET",
+                }).done(function (response) {
+                    console.log(response);
+                    $("#student_no").val(response.student_no);
+                    $("#student_name").val(response.name);
+                    $("#student_dept").val(response.department);
+                    $("#student_grade").val(response.grade);
+                });
+            }
+
+            $("#btn_save").click(function () {
+                alert("저장!");
+                const st_no = $("#student_no").val();
+                const st_name = $("#student_name").val();
+                const st_dept = $("#student_dept").val();
+                const st_grade = $("#student_grade").val();
+
+                $.ajax({
+                    url: "http://localhost:8000/myapp/student/",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        student_no: st_no || null,
+                        name: st_name || null,
+                        department: st_dept || null,
+                        grade: st_grade || null,
+                    })
+                }).done(function (response) {
+                    alert('저장성공')
+                }).fail(function (response) {
+                    alert('저장실패')
+                }).always(function (response) {
+                    console.log(response)
+                });
+            });
+            getStudent()
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        {% include 'layout/header.html' %}
+        <header>
+            <h1>학생 등록하기</h1>
+        </header>
+        <section>
+            <div class="mb-3">
+                <label class="form-label">학번</label>
+                <input type="text" class="form-control" id="student_no" placeholder="학번을 입력하세요" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">이름</label>
+                <input type="text" class="form-control" id="student_name" placeholder="이름을 입력하세요" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">학년</label>
+                <input type="number" class="form-control" id="student_grade" placeholder="학년을 입력하세요" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">학과</label>
+                <input type="text" class="form-control" id="student_dept" placeholder="학과를 입력하세요" />
+            </div>
+            <a href="/myapp/student/list_page/"><button class="btn btn-info">목록으로 돌아가기</button></a>
+            <button id="btn_save" class="btn btn-warning">등록</button>
+        </section>
+    </div>
+    {% include 'layout/footer.html' %}
+</body>
+
+</html>

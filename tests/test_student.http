@@ -1,1 +1,11 @@
-GET http://localhost:8000/myapp/student/1/course/
+# GET http://localhost:8000/myapp/student/1/course/
+
+
+POST http://127.0.0.1:8000/myapp/student/
+
+{
+    "name" : "김예시",
+    "student_no" : "1001",
+    "grade" : 3, 
+    "department" : "조금마이너스"
+}

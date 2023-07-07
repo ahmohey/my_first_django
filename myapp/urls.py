@@ -7,6 +7,7 @@ from myapp.views.person import (
 )
 from myapp.views.student import (
     StudentCourseView,
+    StudentRegisterTemplateView,
     StudentTemplateView,
     StudentListTemplateView,
     StudentView,
@@ -34,6 +35,11 @@ urlpatterns = [
         "student/page/",
         StudentTemplateView.as_view(),
         name="student_page",
+    ),
+    path(
+      "student/register_page/",
+      StudentRegisterTemplateView.as_view(),
+      name="student_page",  
     ),
     path("geolocation/", HelloTemplateView.as_view(), name="geolocation_detail_page"),
     path("jquery/", JqueryTemplateView.as_view(), name="jquery_study"),
